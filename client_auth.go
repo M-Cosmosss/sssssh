@@ -138,7 +138,7 @@ func (c *connection) clientAuthenticateS(config *ClientConfig) ([]string, error)
 			}
 		}
 	}
-	return nil, fmt.Errorf("ssh: unable to authenticate, attempted methods %v, no supported methods remain", tried)
+	return re, fmt.Errorf("ssh: unable to authenticate, attempted methods %v, no supported methods remain", tried)
 }
 
 func contains(list []string, e string) bool {
