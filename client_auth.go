@@ -98,14 +98,20 @@ func (c *connection) clientAuthenticateS(config *ClientConfig) ([]string, error)
 	var lastMethods []string
 
 	sessionID := c.transport.getSessionID()
+	i := 0
+	var re []string
 	for auth := AuthMethod(new(noneAuth)); auth != nil; {
 		ok, methods, err := auth.auth(sessionID, config.User, c.transport, config.Rand)
 		if err != nil {
 			return nil, err
 		}
+		if i == 0 {
+			re = methods
+		}
+		i++
 		if ok == authSuccess {
 			// success
-			return methods, nil
+			return re, nil
 		} else if ok == authFailure {
 			if m := auth.method(); !contains(tried, m) {
 				tried = append(tried, m)
