@@ -103,7 +103,7 @@ func NewClientConnS(c net.Conn, addr string, config *ClientConfig) (Conn, <-chan
 	var err error
 	if method, err = conn.clientHandshakeS(addr, &fullConf); err != nil {
 		c.Close()
-		return nil, nil, nil, fmt.Errorf("ssh: handshake failed: %v", err), nil
+		return nil, nil, nil, fmt.Errorf("ssh: handshake failed: %v", err), method
 	}
 	conn.mux = newMux(conn.transport)
 	return conn, conn.mux.incomingChannels, conn.mux.incomingRequests, nil, method
@@ -232,7 +232,7 @@ func DialS(network, addr string, config *ClientConfig) (*Client, error, []string
 	}
 	c, chans, reqs, err, method := NewClientConnS(conn, addr, config)
 	if err != nil {
-		return nil, err, nil
+		return nil, err, method
 	}
 	return NewClient(c, chans, reqs), nil, method
 }
