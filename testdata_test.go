@@ -6,7 +6,7 @@
 // ssh/, ssh/agent, and ssh/test/. It should be kept in sync across all three
 // instances.
 
-package ssh
+package sssssh
 
 import (
 	"crypto/rand"
